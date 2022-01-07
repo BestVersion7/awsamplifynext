@@ -1,10 +1,10 @@
-// import { fetchAll } from "../utils/apiCall";
-// import Link from "next/link";
+import { fetchAll } from "../utils/apiCall";
+import Link from "next/link";
 
-export default function Home() {
+export default function Home({ data }) {
     return (
         <div>
-            {/* {data.map((item) => (
+            {data.map((item) => (
                 <div key={item.account_id}>
                     <h2>
                         Name is {item.first_name}; Gender is {item.gender}{" "}
@@ -13,18 +13,17 @@ export default function Home() {
                         </Link>
                     </h2>
                 </div>
-            ))} */}
-            hello there
+            ))}
         </div>
     );
 }
 
-// export async function getStaticProps() {
-//     const data = await fetchAll();
+export async function getStaticProps() {
+    const data = await fetchAll();
 
-//     return {
-//         props: {
-//             data,
-//         },
-//     };
-// }
+    return {
+        props: {
+            data,
+        },
+    };
+}
