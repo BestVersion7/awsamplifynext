@@ -1,19 +1,8 @@
-import { Pool } from "pg";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const pool = new Pool({
-    user: "postgres",
-    password: "password",
-    database: "sample",
-    host: "localhost",
-    port: 5432,
-});
-
 import prisma from "../lib/prisma";
-
-//
 
 // const pool = new Pool({
 //     user: process.env.PG_USER,
@@ -26,11 +15,11 @@ import prisma from "../lib/prisma";
 //     },
 // });
 
-const selectAll = () => pool.query(`SELECT * FROM usertb ORDER BY account_id;`);
-const selectTen = () =>
-    pool.query(`SELECT * FROM usertb ORDER BY account_id LIMIT 10;`);
-const fetchByName = (name) =>
-    pool.query(`SELECT * FROM usertb WHERE first_name = $1`, [name]);
+// const selectAll = () => pool.query(`SELECT * FROM usertb ORDER BY account_id;`);
+// const selectTen = () =>
+//     pool.query(`SELECT * FROM usertb ORDER BY account_id LIMIT 10;`);
+// const fetchByName = (name) =>
+//     pool.query(`SELECT * FROM usertb WHERE first_name = $1`, [name]);
 
 // export const fetchAll = async () => {
 //     try {
