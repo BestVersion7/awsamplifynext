@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
-import prisma from '../lib/prisma'
+import prisma from "../lib/prisma";
 
 dotenv.config();
 
@@ -21,20 +21,21 @@ const selectTen = () =>
 const fetchByName = (name) =>
     pool.query(`SELECT * FROM usertb WHERE first_name = $1`, [name]);
 
-export const fetchAll = async () => {
-    try {
-        const data = await selectAll();
-        return data.rows;
-    } catch (err) {
-        return {
-            notFound: true,
-        };
-    }
-};
+// export const fetchAll = async () => {
+//     try {
+//         const data = await selectAll();
+//         return data.rows;
+//     } catch (err) {
+//         return {
+//             notFound: true,
+//         };
+//     }
+// };
 export const fetchTen = async () => {
     try {
-        const data = await selectTen();
-        return data.rows;
+        // const data = await prisma.usertb.findMany({ take: 10 });
+        // return data;
+        // const data = await 
     } catch (err) {
         return {
             notFound: true,
@@ -42,11 +43,11 @@ export const fetchTen = async () => {
     }
 };
 
-export const fetchName = async (name) => {
-    try {
-        const data = await fetchByName(name);
-        return data.rows[0];
-    } catch (err) {
-        return undefined;
-    }
-};
+// export const fetchName = async (name) => {
+//     try {
+//         const data = await fetchByName(name);
+//         return data.rows[0];
+//     } catch (err) {
+//         return undefined;
+//     }
+// };
