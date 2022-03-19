@@ -33,9 +33,8 @@ const fetchByName = (name) =>
 // };
 export const fetchTen = async () => {
     try {
-        // const data = await prisma.usertb.findMany({ take: 10 });
-        // return data;
-        // const data = await 
+        const data = await selectTen({take: 10})
+        return data.rows;
     } catch (err) {
         return {
             notFound: true,
