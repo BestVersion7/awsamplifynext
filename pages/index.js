@@ -6,7 +6,9 @@ export default function Home({ data }) {
     return (
         <div>
             {data.map((item) => (
-                <div key={item.account_id}>Hello {item.first_name}</div>
+                <div key={item.account_id}>
+                    Hello {item.account_id} {item.first_name}
+                </div>
             ))}
         </div>
     );
