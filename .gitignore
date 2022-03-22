@@ -2,7 +2,7 @@
 
 .env
 test.sql
-api
+# api
 
 # dependencies
 /node_modules
