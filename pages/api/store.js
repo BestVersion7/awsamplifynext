@@ -48,7 +48,7 @@ const handler = async (req, res) => {
     if (req.method === "POST") {
         try {
             const { productid, quantity } = req.body;
-            // console.log(id, quantity)
+
             const data = await prisma.ordertb.create({
                 data: {
                     productid,

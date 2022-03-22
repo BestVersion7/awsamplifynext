@@ -9,7 +9,7 @@ const HeaderComponent = () => {
                 </a>
             </Link>
             <h1>
-                <Link href="/checkout">
+                <Link href="/cart">
                     <a>Cart</a>
                 </Link>
             </h1>
@@ -18,13 +18,3 @@ const HeaderComponent = () => {
 };
 
 export default HeaderComponent;
-
-// export const getStaticProps = async () => {
-//     const quantity = await fetchStore();
-//     console.log(quantity)
-//     return {
-//         props: {
-//             quantity,
-//         },
-//     };
-// };

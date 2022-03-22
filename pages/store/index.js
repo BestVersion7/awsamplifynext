@@ -26,23 +26,25 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
     };
 
     return (
-        <div className="card-component-main">
-            <p>{pname}</p>
+        <main className="card-component-main">
+            <div>
+                <p>{pname}</p>
 
-            <img src={pictureurl} alt={pname} title={pname} />
-            <p>${price}.00</p>
-            <p>
-                Quantity <button onClick={handleDecrement}>-</button>
-                <input
-                    size="1px"
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                />
-                <button onClick={handleIncrement}>+</button>
-            </p>
-            <button onClick={handleAddCart}>Add to Cart</button>
-        </div>
+                <img src={pictureurl} alt={pname} title={pname} />
+                <p>${price}.00</p>
+                <p>
+                    Quantity <button onClick={handleDecrement}>-</button>
+                    <input
+                        size="1px"
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                    />
+                    <button onClick={handleIncrement}>+</button>
+                </p>
+                <button onClick={handleAddCart}>Add to Cart</button>
+            </div>
+        </main>
     );
 };
 

@@ -1,49 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
+import Link from "next/link";
+import { Payment } from "../../components/Payment";
 
-const CardComponent = ({
-    orderid,
-    productid,
-    pname,
-    price,
-    quantity,
-    loading,
-    setLoading,
-}) => {
-    const [quantityProduct, setQuantityProduct] = useState(quantity);
-
-    const handleUpdate = async (val) => {
-        // console.log(val)
-        // console.log(quantityProduct)
-        await axios.put("/api/store", {
-            orderid: parseInt(val),
-            quantity: parseInt(quantityProduct),
-        });
-        setLoading(!loading);
-    };
-
-    const handleDelete = async (val) => {
-        await axios.delete(`/api/store?orderid=${val}`);
-        setLoading(!loading);
-    };
+const CardComponent = ({ orderid, pname, price, quantity }) => {
     return (
         <tbody>
             <tr>
                 <td>{pname}</td>
-                <td>
-                    <input
-                        type="number"
-                        value={quantityProduct}
-                        onChange={(e) => setQuantityProduct(e.target.value)}
-                    />
-                    <button onClick={() => handleUpdate(parseInt(orderid))}>
-                        Save
-                    </button>
-                    <button onClick={() => handleDelete(parseInt(orderid))}>
-                        Delete
-                    </button>
-                </td>
+                <td>{quantity}</td>
                 <td>{price}</td>
                 <td>{quantity * price}</td>
             </tr>
@@ -51,29 +17,26 @@ const CardComponent = ({
     );
 };
 
-export default function Store() {
+export default function Checkout() {
     const [cart, setCart] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
-
     const fetchInfo = async () => {
         const { data } = await axios.get("/api/store");
-        // console.log(data)
-        setTotal(
-            data
-                .map((item) => item.quantity * item.storedb.price)
-                .reduce((val, acc) => val + acc)
-        );
+        const total1 = data
+            .map((item) => item.quantity * item.storedb.price)
+            .reduce((val, acc) => val + acc);
+        setTotal(total1);
         setCart(data);
     };
 
     useEffect(() => {
         fetchInfo();
-    }, [loading]);
+    }, []);
     return (
         <div>
-            yo
             <HeaderComponent />
+            <Payment total={total} />
+            <h1>Order Summary: </h1>
             <table>
                 <thead>
                     <tr>
@@ -83,21 +46,27 @@ export default function Store() {
                         <th>Total</th>
                     </tr>
                 </thead>
-                {cart.map(({ orderid, productid, quantity, storedb }) => (
+
+                {cart.map(({ orderid, quantity, storedb }) => (
                     <CardComponent
                         key={orderid}
                         orderid={orderid}
-                        productid={storedb.productid}
                         pname={storedb.pname}
                         price={storedb.price}
                         pictureurl={storedb.pictureurl}
                         quantity={quantity}
-                        loading={loading}
-                        setLoading={setLoading}
                     />
                 ))}
             </table>
-            <p>Total is ${total}</p>
+            <div>
+                <p>Total is ${total} </p>
+                <p>
+                    Go back to cart:
+                    <Link href="/cart">
+                        <a>Cart</a>
+                    </Link>
+                </p>
+            </div>
             <footer>footer</footer>
         </div>
     );
