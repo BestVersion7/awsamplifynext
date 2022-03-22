@@ -101,18 +101,9 @@ export const PaymentForm = ({ total }) => {
             <p>Expiry Date: Any date in the future </p>
             <p>CVC: Any </p>
             <div style={{ marginLeft: "-3em" }}>
-                <CardNumberElement
-                    className="cardnumberelement"
-                    options={CARD_OPTIONS1}
-                />
-                <CardExpiryElement
-                    className="cardexpiryelement"
-                    options={CARD_OPTIONS2}
-                />
-                <CardCvcElement
-                    className="cardcvcelement"
-                    options={CARD_OPTIONS3}
-                />
+                <CardNumberElement className="cardnumberelement" />
+                <CardExpiryElement className="cardexpiryelement" />
+                <CardCvcElement className="cardcvcelement" />
             </div>
             <b>
                 <p style={{ color: "darkred" }}>Total amount: ${total}</p>
@@ -123,57 +114,4 @@ export const PaymentForm = ({ total }) => {
             {openModal ? <p>Card failed</p> : <></>}
         </form>
     );
-};
-
-const CARD_OPTIONS1 = {
-    iconStyle: "solid",
-    style: {
-        base: {
-            color: "#32325d",
-            fontFamily:
-                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-            fontSmoothing: "antialiased",
-            fontSize: "16px",
-            "::placeholder": {
-                color: "#aab7c4",
-            },
-        },
-        invalid: {
-            color: "#fa755a",
-        },
-    },
-};
-const CARD_OPTIONS2 = {
-    style: {
-        base: {
-            color: "#32325d",
-            fontFamily:
-                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-            fontSmoothing: "antialiased",
-            fontSize: "16px",
-            "::placeholder": {
-                color: "#aab7c4",
-            },
-        },
-        invalid: {
-            color: "#fa755a",
-        },
-    },
-};
-const CARD_OPTIONS3 = {
-    style: {
-        base: {
-            color: "#32325d",
-            fontFamily:
-                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-            fontSmoothing: "antialiased",
-            fontSize: "16px",
-            "::placeholder": {
-                color: "#aab7c4",
-            },
-        },
-        invalid: {
-            color: "#fa755a",
-        },
-    },
 };
