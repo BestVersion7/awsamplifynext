@@ -46,7 +46,6 @@ const CardComponent = ({
 
             <img src={pictureurl} alt={pname} title={pname} />
             <p>Price: ${price}.00</p>
-            {/* <p>${price}.00</p> */}
             <p>Quantity:</p>
             <p>
                 <button className="action-button" onClick={handleDecrement}>
@@ -78,6 +77,7 @@ const CardComponent = ({
 
 export default function Store({ storeproducts }) {
     const { loading, setLoading } = useContext(CartContext);
+
     return (
         <div>
             <HeaderComponent />
