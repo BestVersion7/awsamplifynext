@@ -16,6 +16,9 @@ body {
         @include mQ(30em) {
             grid-template-columns: 1fr 1fr 1fr;
         }
+        @include mQ(50em) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
         .store-card {
             text-align: center;
             border: 1px solid black;
@@ -38,7 +41,43 @@ body {
     .cart-component-main {
         background-color: linen;
         div {
-            margin: 0 3em;
+            margin: 0 1em;
+            @include mQ(30em) {
+                margin: 0 3em;
+            }
+        }
+    }
+}
+
+textarea,
+.cardnumberelement,
+.cardexpiryelement,
+.cardcvcelement {
+    border-radius: 4px 4px 0 0;
+    padding: 12px;
+    border: 1px solid rgba(50, 50, 93, 0.1);
+    max-height: 44px;
+    width: 50%;
+    background: white;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+}
+
+.cart-action-container {
+    @include mQ(30em) {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    .cart-action-button-container {
+        display: block;
+        @include mQ(30em) {
+            display: inline;
+        }
+        .cart-action-button {
+            background: lightgreen;
         }
     }
 }
@@ -67,11 +106,33 @@ input {
     text-align: center;
 }
 
+th,
+td {
+    border: 1px solid black;
+    // margin-top: 3em;
+}
+
+table {
+    text-align: center;
+    width: 100%;
+    @include mQ(30em) {
+        width: 90%;
+        // max-width: 25em;
+    }
+    @include mQ(50em) {
+        width: 40em;
+    }
+}
+
 header {
-    background-color: lightblue;
-    height: 5em;
+    background-color: rgb(168, 202, 161);
+    height: 3.5em;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    position: sticky;
+    width: 100%;
+    margin: auto;
+    align-items: center;
     h1 {
         button {
             background-color: red;
@@ -79,30 +140,11 @@ header {
             width: 7em;
         }
     }
-}
-
-th,
-td {
-    border: 1px solid black;
-}
-
-table {
-    text-align: center;
-    width: 34em;
-}
-
-header {
-    // border:  solid blue;
-    position: sticky;
-    width: 100%;
-    height: 3em;
-    margin: auto;
-    align-items: center;
     a {
         margin-left: 0.5em;
         &:hover {
             background-color: orange;
-            cursor: grabbing;
+            cursor: grab;
         }
     }
 }
@@ -116,6 +158,7 @@ header {
     background: wheat;
     width: 6em;
     color: black;
+    font-size: 2em;
 }
 
 .header-icon {
@@ -124,6 +167,7 @@ header {
     background: wheat;
     width: 6em;
     color: black;
+    font-size: 2em;
 }
 
 footer {

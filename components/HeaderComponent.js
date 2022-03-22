@@ -10,12 +10,16 @@ const HeaderComponent = () => {
         <header>
             {/* <h2> */}
             <Link href="/store">
-                <a className="header-icon">Shop Wine</a>
+                <a className="header-icon">
+                    <b>Shop Food</b>
+                </a>
             </Link>
             {/* </h2>
             <h2 className="cart-button"> */}
             <Link href="/cart">
-                <a className="cart-button">Cart ({total})</a>
+                <a className="cart-button">
+                    <b>Cart ({total})</b>
+                </a>
             </Link>
             {/* </h2> */}
         </header>

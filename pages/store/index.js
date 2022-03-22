@@ -65,7 +65,7 @@ const CardComponent = ({
             {checkoutMessage && (
                 <p>
                     Product added to cart! Click here to{" "}
-                    <Link href="/checkout">
+                    <Link href="/cart">
                         <a>checkout</a>
                     </Link>{" "}
                     or upper right hand corner

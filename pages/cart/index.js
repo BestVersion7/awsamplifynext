@@ -33,17 +33,28 @@ const CardComponent = ({
             <tr>
                 <td>{pname}</td>
                 <td>
-                    <input
-                        type="number"
-                        value={quantityProduct}
-                        onChange={(e) => setQuantityProduct(e.target.value)}
-                    />
-                    <button onClick={() => handleUpdate(parseInt(orderid))}>
-                        Update
-                    </button>
-                    <button onClick={() => handleDelete(parseInt(orderid))}>
-                        Remove
-                    </button>
+                    <div className="cart-action-container">
+                        <input
+                            type="number"
+                            value={quantityProduct}
+                            onChange={(e) => setQuantityProduct(e.target.value)}
+                        />
+
+                        <span className="cart-action-button-container">
+                            <button
+                                className="cart-action-button"
+                                onClick={() => handleUpdate(parseInt(orderid))}
+                            >
+                                Update
+                            </button>
+                            <button
+                                className="cart-action-button"
+                                onClick={() => handleDelete(parseInt(orderid))}
+                            >
+                                Remove
+                            </button>
+                        </span>
+                    </div>
                 </td>
                 <td>${price}</td>
                 <td>${quantity * price}</td>

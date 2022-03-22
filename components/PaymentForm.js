@@ -1,9 +1,19 @@
-import React, { useState } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useState, useContext } from "react";
+import {
+    useStripe,
+    CardCvcElement,
+    useElements,
+    CardNumberElement,
+    CardExpiryElement,
+} from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { CartContext } from "./Layout";
 
 export const PaymentForm = ({ total }) => {
+    // this is just cart to 0
+    const { setTotal } = useContext(CartContext);
+
     const router = useRouter();
     const [succeeded, setSucceeded] = useState(false);
     const [processing, setProcessing] = useState(false);
@@ -40,7 +50,7 @@ export const PaymentForm = ({ total }) => {
                 data.clientSecret,
                 {
                     payment_method: {
-                        card: elements.getElement(CardElement),
+                        card: elements.getElement(CardNumberElement),
                     },
                 }
             );
@@ -62,7 +72,9 @@ export const PaymentForm = ({ total }) => {
     };
     // redirect if succeeded
     if (succeeded) {
-        // console.log(payIntent.id);
+        //clear cart after payment
+        axios.delete("/api/cart");
+        setTotal(0);
         router.push(
             {
                 pathname: `/checkout/${payIntent.id}`,
@@ -73,7 +85,7 @@ export const PaymentForm = ({ total }) => {
     }
 
     return (
-        <form className="container-donation-form">
+        <form>
             <textarea
                 placeholder="Name"
                 onChange={(e) => setName(e.target.value)}
@@ -83,7 +95,20 @@ export const PaymentForm = ({ total }) => {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <CardElement options={CARD_OPTIONS} />
+            <div style={{ marginLeft: "-3em" }}>
+                <CardNumberElement
+                    className="cardnumberelement"
+                    options={CARD_OPTIONS1}
+                />
+                <CardExpiryElement
+                    className="cardexpiryelement"
+                    options={CARD_OPTIONS2}
+                />
+                <CardCvcElement
+                    className="cardcvcelement"
+                    options={CARD_OPTIONS3}
+                />
+            </div>
             <b>
                 <p style={{ color: "darkred" }}>Total amount: ${total}</p>
             </b>
@@ -95,8 +120,42 @@ export const PaymentForm = ({ total }) => {
     );
 };
 
-const CARD_OPTIONS = {
+const CARD_OPTIONS1 = {
     iconStyle: "solid",
+    style: {
+        base: {
+            color: "#32325d",
+            fontFamily:
+                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#aab7c4",
+            },
+        },
+        invalid: {
+            color: "#fa755a",
+        },
+    },
+};
+const CARD_OPTIONS2 = {
+    style: {
+        base: {
+            color: "#32325d",
+            fontFamily:
+                '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#aab7c4",
+            },
+        },
+        invalid: {
+            color: "#fa755a",
+        },
+    },
+};
+const CARD_OPTIONS3 = {
     style: {
         base: {
             color: "#32325d",

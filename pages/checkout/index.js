@@ -4,14 +4,15 @@ import HeaderComponent from "../../components/HeaderComponent";
 import Link from "next/link";
 import { Payment } from "../../components/Payment";
 
-const CardComponent = ({ orderid, pname, price, quantity }) => {
+
+const CardComponent = ({ pname, price, quantity }) => {
     return (
         <tbody>
             <tr>
                 <td>{pname}</td>
                 <td>{quantity}</td>
                 <td>{price}</td>
-                <td>{quantity * price}</td>
+                <td>${quantity * price}.00</td>
             </tr>
         </tbody>
     );
@@ -59,10 +60,7 @@ export default function Checkout() {
                         />
                     ))}
                 </table>
-                <div>
-                    <p>
-                        Total is ${total}{" "}
-                    </p>
+                <>
                     <p>
                         Go back to
                         <button>
@@ -71,7 +69,7 @@ export default function Checkout() {
                             </Link>
                         </button>
                     </p>
-                </div>
+                </>
             </div>
         </div>
     );

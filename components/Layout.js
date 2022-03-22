@@ -25,7 +25,9 @@ const Layout = ({ children }) => {
     }, [loading]);
     return (
         <div>
-            <CartContext.Provider value={{ total, loading, setLoading }}>
+            <CartContext.Provider
+                value={{ total, setTotal, loading, setLoading }}
+            >
                 <main>{children}</main>
             </CartContext.Provider>
             <Footer />
