@@ -15,16 +15,16 @@ model usertb {
 }
 
 model storedb {
-  id         Int       @id @default(autoincrement())
-  pname      String?   @db.VarChar(50)
-  price      String?   @db.VarChar(4)
-  pictureurl String?   @db.VarChar(500)
-  ordertb    ordertb[]
+  id         Int      @id @default(autoincrement())
+  pname      String?  @db.VarChar(50)
+  price      String?  @db.VarChar(4)
+  pictureurl String?  @db.VarChar(500)
+  ordertb    ordertb?
 }
 
 model ordertb {
-  orderid   Int      @id @default(autoincrement())
-  productid Int?
-  quantity  Int?     @db.SmallInt
-  storedb   storedb? @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orderid   Int     @id @default(autoincrement())
+  productid Int     @unique
+  quantity  Int?    @db.SmallInt
+  storedb   storedb @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from "react";
 import axios from "axios";
+import Footer from "./Footer";
 
 export const CartContext = createContext();
 
@@ -15,7 +16,7 @@ const Layout = ({ children }) => {
                 .map((item) => item.quantity)
                 .reduce((val, acc) => val + acc);
             setTotal(data1);
-            console.log(`data from highg ${data1}`);
+            // console.log(`data from highg ${data1}`);
         }
     };
 
@@ -24,11 +25,10 @@ const Layout = ({ children }) => {
     }, [loading]);
     return (
         <div>
-            <CartContext.Provider
-                value={{ total, setTotal, loading, setLoading }}
-            >
+            <CartContext.Provider value={{ total, loading, setLoading }}>
                 <main>{children}</main>
             </CartContext.Provider>
+            <Footer />
         </div>
     );
 };

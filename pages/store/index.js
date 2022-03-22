@@ -13,15 +13,15 @@ const CardComponent = ({
     loading,
     setLoading,
 }) => {
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
     const [checkoutMessage, setCheckoutMessage] = useState(false);
 
     const handleIncrement = () => {
-        setQuantity(quantity + 1);
+        setQuantity(parseInt(quantity) + 1);
         // setCheckoutMessage(false);
     };
     const handleDecrement = () => {
-        setQuantity(quantity - 1);
+        setQuantity(parseInt(quantity) - 1);
         // setCheckoutMessage(false);
     };
 
@@ -94,7 +94,6 @@ export default function Store({ storeproducts }) {
                     />
                 ))}
             </div>
-            <footer>footer</footer>
         </div>
     );
 }

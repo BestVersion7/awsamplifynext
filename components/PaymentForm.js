@@ -84,8 +84,9 @@ export const PaymentForm = ({ total }) => {
                 onChange={(e) => setEmail(e.target.value)}
             />
             <CardElement options={CARD_OPTIONS} />
-
-            <p>Amount: {total}</p>
+            <b>
+                <p style={{ color: "darkred" }}>Total amount: ${total}</p>
+            </b>
             <button onClick={handleSubmit} disabled={processing || succeeded}>
                 <span>{processing ? <p>loading...</p> : "Pay"}</span>
             </button>

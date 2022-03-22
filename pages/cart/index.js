@@ -120,8 +120,6 @@ export default function Cart() {
                     ))}
                 </table>
             </div>
-
-            <footer>footer</footer>
         </div>
     );
 }

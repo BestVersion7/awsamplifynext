@@ -10,7 +10,7 @@ const HeaderComponent = () => {
         <header>
             {/* <h2> */}
             <Link href="/store">
-                <a>Shop Wine</a>
+                <a className="header-icon">Shop Wine</a>
             </Link>
             {/* </h2>
             <h2 className="cart-button"> */}

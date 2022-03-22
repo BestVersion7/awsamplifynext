@@ -38,7 +38,7 @@ body {
     .cart-component-main {
         background-color: linen;
         div {
-            margin-left: 3em;
+            margin: 0 3em;
         }
     }
 }
@@ -63,7 +63,7 @@ button {
 
 input {
     height: 2.5em;
-    width: 3em;
+    width: 4em;
     text-align: center;
 }
 
@@ -79,11 +79,6 @@ header {
             width: 7em;
         }
     }
-}
-
-footer {
-    background-color: lightgreen;
-    height: 5em;
 }
 
 th,
@@ -116,12 +111,27 @@ header {
     position: absolute;
     // top: 0;
     right: 0.5em;
-}
-
-a {
     text-decoration: none;
     // border: 1px solid red;
     background: wheat;
     width: 6em;
     color: black;
+}
+
+.header-icon {
+    text-decoration: none;
+    // border: 1px solid red;
+    background: wheat;
+    width: 6em;
+    color: black;
+}
+
+footer {
+    background: darkslategray;
+    text-align: center;
+    color: darken($color: white, $amount: 10);
+    a {
+        padding: 0 0.3em;
+        // height: 3em
+    }
 }

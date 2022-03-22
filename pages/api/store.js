@@ -49,12 +49,25 @@ const handler = async (req, res) => {
         try {
             const { productid, quantity } = req.body;
 
-            const data = await prisma.ordertb.create({
-                data: {
+            // console.log(productid, quantity)
+            const data = await prisma.ordertb.upsert({
+                where: {
+                    productid,
+                },
+                update: {
+                    quantity,
+                },
+                create: {
                     productid,
                     quantity,
                 },
             });
+            // const data = await prisma.ordertb.create({
+            //     data: {
+            //         productid,
+            //         quantity,
+            //     },
+            // });
             return res.json(data);
         } catch (err) {
             res.status(500).send("internal err");

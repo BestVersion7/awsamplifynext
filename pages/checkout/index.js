@@ -60,7 +60,9 @@ export default function Checkout() {
                     ))}
                 </table>
                 <div>
-                    <p>Total is ${total} </p>
+                    <p>
+                        Total is ${total}{" "}
+                    </p>
                     <p>
                         Go back to
                         <button>
@@ -71,8 +73,6 @@ export default function Checkout() {
                     </p>
                 </div>
             </div>
-
-            <footer>footer</footer>
         </div>
     );
 }
