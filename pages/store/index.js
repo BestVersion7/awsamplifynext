@@ -4,6 +4,7 @@ import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
+import Image from "next/image";
 
 const CardComponent = ({
     id,
@@ -44,7 +45,14 @@ const CardComponent = ({
         <div className="store-card">
             <p>{pname}</p>
 
-            <img src={pictureurl} alt={pname} title={pname} />
+            <Image
+                width="5em"
+                height="5em"
+                layout="responsive"
+                src={pictureurl}
+                alt={pname}
+                title={pname}
+            />
             <p>Price: ${price}.00</p>
             <p>Quantity:</p>
             <p>

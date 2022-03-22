@@ -95,6 +95,11 @@ export const PaymentForm = ({ total }) => {
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
             />
+            <p>Your card won't be charged. This is using stripe test keys.</p>
+            <br />
+            <p>Card Number: 4242424242424242 </p>
+            <p>Expiry Date: Any date in the future </p>
+            <p>CVC: Any </p>
             <div style={{ marginLeft: "-3em" }}>
                 <CardNumberElement
                     className="cardnumberelement"

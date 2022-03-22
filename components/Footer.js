@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const Footer = () => {
     return (
         <footer>
@@ -8,8 +10,10 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 title="Github"
             >
-                <img
-                    height="40"
+                <Image
+                    height="66%"
+                    width="66%"
+                    // layout="responsive"
                     src="https://res.cloudinary.com/crimson-flamingo/image/upload/v1556071829/230419%20Icons/github.png"
                     alt="github"
                 />
@@ -20,14 +24,16 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 title="LinkedIn"
             >
-                <img
-                    height="40"
+                <Image
+                    height="66%"
+                    width="66%"
+                    // layout="fill"
                     src="https://res.cloudinary.com/crimson-flamingo/image/upload/v1603470384/230419%20Icons/logo-linkedin.png"
                     alt="linkedin"
                 />
             </a>
             <br />
-            2022 
+            2022
         </footer>
     );
 };
