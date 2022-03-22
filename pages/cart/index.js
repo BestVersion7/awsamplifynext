@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
+import { CartContext } from "../../components/Layout";
 import Link from "next/link";
 
 const CardComponent = ({
@@ -38,14 +39,14 @@ const CardComponent = ({
                         onChange={(e) => setQuantityProduct(e.target.value)}
                     />
                     <button onClick={() => handleUpdate(parseInt(orderid))}>
-                        Save
+                        Update
                     </button>
                     <button onClick={() => handleDelete(parseInt(orderid))}>
-                        Delete
+                        Remove
                     </button>
                 </td>
-                <td>{price}</td>
-                <td>{quantity * price}</td>
+                <td>${price}</td>
+                <td>${quantity * price}</td>
             </tr>
         </tbody>
     );
@@ -53,7 +54,7 @@ const CardComponent = ({
 
 export default function Cart() {
     const [cart, setCart] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { loading, setLoading } = useContext(CartContext);
     const [total, setTotal] = useState(0);
     const [cartMessage, setCartMessage] = useState(true);
 
@@ -77,41 +78,49 @@ export default function Cart() {
         fetchInfo();
     }, [loading]);
     return (
-        <div>
+        <div className="cart-component-main">
             <HeaderComponent />
+            <div>
+                {cartMessage ? (
+                    <p>You have no items in your cart.</p>
+                ) : (
+                    <>
+                        <p>Total is ${total} </p>
+                        <a href="/store">
+                            <button className="checkout-button">Back</button>
+                        </a>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                {cart.map(({ orderid, quantity, storedb }) => (
-                    <CardComponent
-                        key={orderid}
-                        orderid={orderid}
-                        pname={storedb.pname}
-                        price={storedb.price}
-                        pictureurl={storedb.pictureurl}
-                        quantity={quantity}
-                        loading={loading}
-                        setLoading={setLoading}
-                    />
-                ))}
-            </table>
-            {cartMessage ? (
-                <p>You have no items in your cart.</p>
-            ) : (
-                <div>
-                    <p>Total is ${total} </p>
-                    <Link href="/checkout">
-                        <a>Checkout</a>
-                    </Link>
-                </div>
-            )}
+                        <button className="checkout-button">
+                            <Link href="/checkout">
+                                <a>Checkout</a>
+                            </Link>
+                        </button>
+                    </>
+                )}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    {cart.map(({ orderid, quantity, storedb }) => (
+                        <CardComponent
+                            key={orderid}
+                            orderid={orderid}
+                            pname={storedb.pname}
+                            price={storedb.price}
+                            pictureurl={storedb.pictureurl}
+                            quantity={quantity}
+                            loading={loading}
+                            setLoading={setLoading}
+                        />
+                    ))}
+                </table>
+            </div>
+
             <footer>footer</footer>
         </div>
     );

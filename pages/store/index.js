@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { fetchStore } from "../../utils/apiCall";
 import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
+import { CartContext } from "../../components/Layout";
+import Link from "next/link";
 
-const CardComponent = ({ id, pname, price, pictureurl }) => {
+const CardComponent = ({
+    id,
+    pname,
+    price,
+    pictureurl,
+    loading,
+    setLoading,
+}) => {
     const [quantity, setQuantity] = useState(0);
+    const [checkoutMessage, setCheckoutMessage] = useState(false);
+
     const handleIncrement = () => {
         setQuantity(quantity + 1);
+        // setCheckoutMessage(false);
     };
     const handleDecrement = () => {
         setQuantity(quantity - 1);
+        // setCheckoutMessage(false);
     };
 
     const handleAddCart = async () => {
@@ -19,6 +32,8 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
                 productid: id,
                 quantity: quantity2,
             });
+            setLoading(!loading);
+            setCheckoutMessage(true);
             // console.log(data);
         } catch (err) {
             console.log(err);
@@ -26,41 +41,59 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
     };
 
     return (
-        <main className="card-component-main">
-            <div>
-                <p>{pname}</p>
+        <div className="store-card">
+            <p>{pname}</p>
 
-                <img src={pictureurl} alt={pname} title={pname} />
-                <p>${price}.00</p>
+            <img src={pictureurl} alt={pname} title={pname} />
+            <p>Price: ${price}.00</p>
+            {/* <p>${price}.00</p> */}
+            <p>Quantity:</p>
+            <p>
+                <button className="action-button" onClick={handleDecrement}>
+                    -
+                </button>
+                <input
+                    size="1px"
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                />
+                <button className="action-button" onClick={handleIncrement}>
+                    +
+                </button>
+            </p>
+            <button onClick={handleAddCart}>Add to Cart</button>
+            {checkoutMessage && (
                 <p>
-                    Quantity <button onClick={handleDecrement}>-</button>
-                    <input
-                        size="1px"
-                        type="number"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                    />
-                    <button onClick={handleIncrement}>+</button>
+                    Product added to cart! Click here to{" "}
+                    <Link href="/checkout">
+                        <a>checkout</a>
+                    </Link>{" "}
+                    or upper right hand corner
                 </p>
-                <button onClick={handleAddCart}>Add to Cart</button>
-            </div>
-        </main>
+            )}
+        </div>
     );
 };
 
 export default function Store({ storeproducts }) {
+    const { loading, setLoading } = useContext(CartContext);
     return (
         <div>
             <HeaderComponent />
-            {storeproducts.map(({ id, pname, price, pictureurl }) => (
-                <CardComponent
-                    key={id}
-                    id={id}
-                    pname={pname}
-                    price={price}
-                    pictureurl={pictureurl}
-                />
-            ))}
+            <div className="store-component-main">
+                {storeproducts.map(({ id, pname, price, pictureurl }) => (
+                    <CardComponent
+                        key={id}
+                        id={id}
+                        pname={pname}
+                        price={price}
+                        pictureurl={pictureurl}
+                        loading={loading}
+                        setLoading={setLoading}
+                    />
+                ))}
+            </div>
             <footer>footer</footer>
         </div>
     );

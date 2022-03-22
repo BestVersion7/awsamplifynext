@@ -9,12 +9,12 @@ const stripePromise = loadStripe(
 
 export const Payment = ({ total }) => {
     return (
-        <div>
+        <>
             <h3>Make Payment:</h3>
             <Elements stripe={stripePromise}>
                 <PaymentForm total={total} />
             </Elements>
             <br />
-        </div>
+        </>
     );
 };

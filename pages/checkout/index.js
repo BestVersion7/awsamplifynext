@@ -33,40 +33,45 @@ export default function Checkout() {
         fetchInfo();
     }, []);
     return (
-        <div>
+        <div className="checkout-component-main">
             <HeaderComponent />
-            <Payment total={total} />
-            <h1>Order Summary: </h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-
-                {cart.map(({ orderid, quantity, storedb }) => (
-                    <CardComponent
-                        key={orderid}
-                        orderid={orderid}
-                        pname={storedb.pname}
-                        price={storedb.price}
-                        pictureurl={storedb.pictureurl}
-                        quantity={quantity}
-                    />
-                ))}
-            </table>
             <div>
-                <p>Total is ${total} </p>
-                <p>
-                    Go back to cart:
-                    <Link href="/cart">
-                        <a>Cart</a>
-                    </Link>
-                </p>
+                <Payment total={total} />
+                <h1>Order Summary: </h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    {cart.map(({ orderid, quantity, storedb }) => (
+                        <CardComponent
+                            key={orderid}
+                            orderid={orderid}
+                            pname={storedb.pname}
+                            price={storedb.price}
+                            pictureurl={storedb.pictureurl}
+                            quantity={quantity}
+                        />
+                    ))}
+                </table>
+                <div>
+                    <p>Total is ${total} </p>
+                    <p>
+                        Go back to
+                        <button>
+                            <Link href="/cart">
+                                <a>Cart</a>
+                            </Link>
+                        </button>
+                    </p>
+                </div>
             </div>
+
             <footer>footer</footer>
         </div>
     );

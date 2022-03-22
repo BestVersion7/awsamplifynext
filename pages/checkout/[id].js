@@ -8,7 +8,7 @@ const CheckoutSuccess = () => {
     // console.log(paymentIntent);
     // 4242424242424242
     return (
-        <div>
+        <div className="checkout-component-main">
             <HeaderComponent />
             <article style={{ maxWidth: "25em" }}>
                 {`Thank for your payment of $${amount / 100}! A receipt has been

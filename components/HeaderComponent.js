@@ -1,18 +1,23 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { CartContext } from "./Layout";
 
 const HeaderComponent = () => {
+    const { total } = useContext(CartContext);
+    // console.log(total)
+
     return (
         <header>
+            {/* <h2> */}
             <Link href="/store">
-                <a>
-                    <h1>Store Header</h1>
-                </a>
+                <a>Shop Wine</a>
             </Link>
-            <h1>
-                <Link href="/cart">
-                    <a>Cart</a>
-                </Link>
-            </h1>
+            {/* </h2>
+            <h2 className="cart-button"> */}
+            <Link href="/cart">
+                <a className="cart-button">Cart ({total})</a>
+            </Link>
+            {/* </h2> */}
         </header>
     );
 };
