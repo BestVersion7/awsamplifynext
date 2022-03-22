@@ -1,46 +1,108 @@
-import { fetchTen } from "../utils/apiCall";
-import Form from "../components/Form";
+import { useState, useContext } from "react";
+import { fetchStore } from "../utils/apiCall";
 import axios from "axios";
-import { useState } from "react";
+import HeaderComponent from "../components/HeaderComponent";
+import { CartContext } from "../components/Layout";
+import Link from "next/link";
 
-// import Link from "next/link";
+const CardComponent = ({
+    id,
+    pname,
+    price,
+    pictureurl,
+    loading,
+    setLoading,
+}) => {
+    const [quantity, setQuantity] = useState(1);
+    const [checkoutMessage, setCheckoutMessage] = useState(false);
 
-export default function Home({ data }) {
-    const [name, setName] = useState("");
-    const handleClick = async (e) => {
+    const handleIncrement = () => {
+        setQuantity(parseInt(quantity) + 1);
+        // setCheckoutMessage(false);
+    };
+    const handleDecrement = () => {
+        setQuantity(parseInt(quantity) - 1);
+        // setCheckoutMessage(false);
+    };
+
+    const handleAddCart = async () => {
         try {
-            const { data } = await axios.post("/api/message", {
-                first_name: name,
+            const quantity2 = parseInt(quantity);
+            const data = await axios.post("/api/store", {
+                productid: id,
+                quantity: quantity2,
             });
-            console.log(data);
+            setLoading(!loading);
+            setCheckoutMessage(true);
+            // console.log(data);
         } catch (err) {
             console.log(err);
         }
     };
+
+    return (
+        <div className="store-card">
+            <p>{pname}</p>
+
+            <img src={pictureurl} alt={pname} title={pname} />
+            <p>Price: ${price}.00</p>
+            <p>Quantity:</p>
+            <p>
+                <button className="action-button" onClick={handleDecrement}>
+                    -
+                </button>
+                <input
+                    size="1px"
+                    type="number"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                />
+                <button className="action-button" onClick={handleIncrement}>
+                    +
+                </button>
+            </p>
+            <button onClick={handleAddCart}>Add to Cart</button>
+            {checkoutMessage && (
+                <p>
+                    Product added to cart! Click here to{" "}
+                    <Link href="/cart">
+                        <a>checkout</a>
+                    </Link>{" "}
+                    or upper right hand corner
+                </p>
+            )}
+        </div>
+    );
+};
+
+export default function Store({ storeproducts }) {
+    const { loading, setLoading } = useContext(CartContext);
+
     return (
         <div>
-            <Form />
-            {/* <form onSubmit={(e) => e.preventDefault()}>
-                <input value={name} onChange={(e) => setName(e.target.value)} />
-                <button type="submit" onClick={handleClick}>
-                    enter
-                </button>
-            </form> */}
-            {data.map((item) => (
-                <div key={item.account_id}>
-                    Hello {item.account_id} {item.first_name}
-                </div>
-            ))}
+            <HeaderComponent />
+            <div className="store-component-main">
+                {storeproducts.map(({ id, pname, price, pictureurl }) => (
+                    <CardComponent
+                        key={id}
+                        id={id}
+                        pname={pname}
+                        price={price}
+                        pictureurl={pictureurl}
+                        loading={loading}
+                        setLoading={setLoading}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
 
-export async function getStaticProps() {
-    const data = await fetchTen();
-    // console.log(data)
+export const getStaticProps = async () => {
+    const storeproducts = await fetchStore();
     return {
         props: {
-            data,
+            storeproducts,
         },
     };
-}
+};

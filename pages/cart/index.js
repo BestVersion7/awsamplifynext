@@ -13,14 +13,19 @@ const CardComponent = ({
     setLoading,
 }) => {
     const [quantityProduct, setQuantityProduct] = useState(quantity);
+    const [disableUpdate, setDisableUpdate] = useState(true);
+
+    const handleChange = (e) => {
+        setDisableUpdate(false);
+        setQuantityProduct(e.target.value);
+    };
 
     const handleUpdate = async (val) => {
-        // console.log(val)
-        // console.log(quantityProduct)
         await axios.put("/api/store", {
             orderid: parseInt(val),
             quantity: parseInt(quantityProduct),
         });
+        setDisableUpdate(true);
         setLoading(!loading);
     };
 
@@ -37,13 +42,14 @@ const CardComponent = ({
                         <input
                             type="number"
                             value={quantityProduct}
-                            onChange={(e) => setQuantityProduct(e.target.value)}
+                            onChange={(e) => handleChange(e)}
                         />
 
                         <span className="cart-action-button-container">
                             <button
                                 className="cart-action-button"
                                 onClick={() => handleUpdate(parseInt(orderid))}
+                                disabled={disableUpdate}
                             >
                                 Update
                             </button>
