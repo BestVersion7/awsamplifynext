@@ -103,9 +103,13 @@ export default function Cart() {
                 ) : (
                     <>
                         <p>Total is ${total} </p>
-                        <a href="/store">
-                            <button className="checkout-button">Back</button>
-                        </a>
+                        <Link href="/store">
+                            <a>
+                                <button className="checkout-button">
+                                    Back
+                                </button>
+                            </a>
+                        </Link>
 
                         <button className="checkout-button">
                             <Link href="/checkout">
