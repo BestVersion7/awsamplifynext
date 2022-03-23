@@ -12,7 +12,7 @@ import { CartContext } from "./Layout";
 
 export const PaymentForm = ({ total }) => {
     // this is just cart to 0
-    const { setTotal } = useContext(CartContext);
+    const { mutateCartTotal } = useContext(CartContext);
 
     const router = useRouter();
     const [succeeded, setSucceeded] = useState(false);
@@ -74,7 +74,7 @@ export const PaymentForm = ({ total }) => {
     if (succeeded) {
         //clear cart after payment
         axios.delete("/api/cart");
-        setTotal(0);
+        mutateCartTotal();
         router.push(
             {
                 pathname: `/checkout/${payIntent.id}`,

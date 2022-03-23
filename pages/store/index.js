@@ -6,14 +6,9 @@ import { CartContext } from "../../components/Layout";
 import Link from "next/link";
 import Image from "next/image";
 
-const CardComponent = ({
-    id,
-    pname,
-    price,
-    pictureurl,
-    loading,
-    setLoading,
-}) => {
+const CardComponent = ({ id, pname, price, pictureurl }) => {
+    const { mutateCartTotal } = useContext(CartContext);
+
     const [quantity, setQuantity] = useState(1);
     const [checkoutMessage, setCheckoutMessage] = useState(false);
 
@@ -33,8 +28,8 @@ const CardComponent = ({
                 productid: id,
                 quantity: quantity2,
             });
-            setLoading(!loading);
             setCheckoutMessage(true);
+            mutateCartTotal();
             // console.log(data);
         } catch (err) {
             console.log(err);
@@ -84,8 +79,6 @@ const CardComponent = ({
 };
 
 export default function Store({ storeproducts }) {
-    const { loading, setLoading } = useContext(CartContext);
-
     return (
         <div>
             <HeaderComponent />
@@ -97,8 +90,6 @@ export default function Store({ storeproducts }) {
                         pname={pname}
                         price={price}
                         pictureurl={pictureurl}
-                        loading={loading}
-                        setLoading={setLoading}
                     />
                 ))}
             </div>

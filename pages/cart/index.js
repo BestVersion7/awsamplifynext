@@ -1,17 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
+import useSWR from "swr";
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-const CardComponent = ({
-    orderid,
-    pname,
-    price,
-    quantity,
-    loading,
-    setLoading,
-}) => {
+const CardComponent = ({ orderid, pname, price, quantity }) => {
+    const { mutateCartTotal } = useContext(CartContext);
+
     const [quantityProduct, setQuantityProduct] = useState(quantity);
     const [disableUpdate, setDisableUpdate] = useState(true);
 
@@ -26,12 +23,12 @@ const CardComponent = ({
             quantity: parseInt(quantityProduct),
         });
         setDisableUpdate(true);
-        setLoading(!loading);
+        mutateCartTotal();
     };
 
     const handleDelete = async (val) => {
         await axios.delete(`/api/store?orderid=${val}`);
-        setLoading(!loading);
+        mutateCartTotal();
     };
     return (
         <tbody>
@@ -70,35 +67,23 @@ const CardComponent = ({
 };
 
 export default function Cart() {
-    const [cart, setCart] = useState([]);
-    const { loading, setLoading } = useContext(CartContext);
-    const [total, setTotal] = useState(0);
-    const [cartMessage, setCartMessage] = useState(true);
+    const { data, error } = useSWR("/api/store", fetcher);
 
-    const fetchInfo = async () => {
-        const { data } = await axios.get("/api/store");
-        // console.log(data)
-        if (data.length === 0) {
-            setCartMessage(true);
-        } else {
-            setCartMessage(false);
-            setTotal(
-                data
-                    .map((item) => item.quantity * item.storedb.price)
-                    .reduce((val, acc) => val + acc)
-            );
-        }
-        setCart(data);
-    };
+    if (error) return <div>Failed to load</div>;
+    if (!data) return <div>Loading...</div>;
 
-    useEffect(() => {
-        fetchInfo();
-    }, [loading]);
+    let total;
+    if (data.length !== 0) {
+        total = data
+            .map((item) => item.quantity * item.storedb.price)
+            .reduce((val, acc) => val + acc);
+    }
+
     return (
         <div className="cart-component-main">
             <HeaderComponent />
             <div>
-                {cartMessage ? (
+                {data.length === 0 ? (
                     <p>You have no items in your cart.</p>
                 ) : (
                     <>
@@ -127,7 +112,7 @@ export default function Cart() {
                             <th>Total</th>
                         </tr>
                     </thead>
-                    {cart.map(({ orderid, quantity, storedb }) => (
+                    {data.map(({ orderid, quantity, storedb }) => (
                         <CardComponent
                             key={orderid}
                             orderid={orderid}
@@ -135,8 +120,6 @@ export default function Cart() {
                             price={storedb.price}
                             pictureurl={storedb.pictureurl}
                             quantity={quantity}
-                            loading={loading}
-                            setLoading={setLoading}
                         />
                     ))}
                 </table>
