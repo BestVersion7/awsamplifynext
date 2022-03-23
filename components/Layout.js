@@ -14,7 +14,7 @@ const Layout = ({ children }) => {
     if (data.length === 0) {
         total = 0;
     } else {
-        console.log(data)
+        // console.log(data)
         total = data
             .map((item) => item.quantity)
             .reduce((val, acc) => val + acc);
