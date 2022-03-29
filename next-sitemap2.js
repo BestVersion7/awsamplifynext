@@ -1,9 +1,7 @@
-console.log(process.env.NODE_ENV);
-const nodeenv = process.env.NODE_ENV;
-let siteUrl;
-nodeenv === "production"
-    ? (siteUrl = "https://awsamplifynext.vercel.app/")
-    : "http://localhost:3000";
+let siteUrl = "https://awsamplifynext.vercel.app/";
+if (process.env.NODE_ENV !== "production") {
+    siteUrl = "http://localhost:3000";
+}
 
 module.exports = {
     siteUrl,
