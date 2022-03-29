@@ -2,6 +2,7 @@ import HeaderComponent from "../../components/HeaderComponent";
 import Link from "next/link";
 import { Payment } from "../../components/Payment";
 import { fetchCart } from "../../utils/apiCall";
+import Meta from "../../components/Meta";
 
 const CardComponent = ({ pname, price, quantity }) => {
     return (
@@ -26,6 +27,8 @@ const Checkout = ({ cartData }) => {
 
     return (
         <div className="checkout-component-main">
+            <Meta title={"checkout"} description={"This is the line"} />
+
             <HeaderComponent />
             <div>
                 <Payment total={total} />

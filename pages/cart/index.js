@@ -5,6 +5,7 @@ import { CartContext } from "../../components/Layout";
 import Link from "next/link";
 import { fetchCart } from "../../utils/apiCall";
 import { useRouter } from "next/router";
+import Meta from "../../components/Meta";
 
 const CardComponent = ({ props }) => {
     const { cartReload, setCartReload } = useContext(CartContext);
@@ -83,6 +84,8 @@ const Cart = ({ data }) => {
 
     return (
         <div className="cart-component-main">
+            <Meta title={"cart"} description={"This is the cart"} />
+
             <HeaderComponent />
             <div>
                 {data.length === 0 ? (

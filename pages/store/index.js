@@ -4,6 +4,7 @@ import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
+import Meta from "../../components/Meta";
 
 const CardComponent = ({ props, cartReload, setCartReload }) => {
     const [quantity, setQuantity] = useState(1);
@@ -35,6 +36,7 @@ const CardComponent = ({ props, cartReload, setCartReload }) => {
 
     return (
         <div className="store-card">
+            <Meta title={"store"} description={"This is my store"} />
             <p>{props.pname}</p>
 
             <img src={props.pictureurl} alt={props.pname} title={props.pname} />
