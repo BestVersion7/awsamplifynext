@@ -4,11 +4,8 @@ import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
-import Image from "next/image";
 
-const CardComponent = ({ id, pname, price, pictureurl }) => {
-    const { mutateCartTotal } = useContext(CartContext);
-
+const CardComponent = ({ props, cartReload, setCartReload }) => {
     const [quantity, setQuantity] = useState(1);
     const [checkoutMessage, setCheckoutMessage] = useState(false);
 
@@ -25,11 +22,11 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
         try {
             const quantity2 = parseInt(quantity);
             const data = await axios.post("/api/store", {
-                productid: id,
+                productid: props.id,
                 quantity: quantity2,
             });
+            setCartReload(!cartReload);
             setCheckoutMessage(true);
-            mutateCartTotal();
             // console.log(data);
         } catch (err) {
             console.log(err);
@@ -38,17 +35,10 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
 
     return (
         <div className="store-card">
-            <p>{pname}</p>
+            <p>{props.pname}</p>
 
-            <Image
-                width="5em"
-                height="5em"
-                layout="responsive"
-                src={pictureurl}
-                alt={pname}
-                title={pname}
-            />
-            <p>Price: ${price}.00</p>
+            <img src={props.pictureurl} alt={props.pname} title={props.pname} />
+            <p>Price: ${props.price}.00</p>
             <p>Quantity:</p>
             <p>
                 <button className="action-button" onClick={handleDecrement}>
@@ -79,17 +69,18 @@ const CardComponent = ({ id, pname, price, pictureurl }) => {
 };
 
 export default function Store({ storeproducts }) {
+    const { cartReload, setCartReload } = useContext(CartContext);
+
     return (
         <div>
             <HeaderComponent />
             <div className="store-component-main">
-                {storeproducts.map(({ id, pname, price, pictureurl }) => (
+                {storeproducts.map((props) => (
                     <CardComponent
-                        key={id}
-                        id={id}
-                        pname={pname}
-                        price={price}
-                        pictureurl={pictureurl}
+                        key={props.id}
+                        props={props}
+                        cartReload={cartReload}
+                        setCartReload={setCartReload}
                     />
                 ))}
             </div>

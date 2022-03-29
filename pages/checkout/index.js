@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import Link from "next/link";
 import { Payment } from "../../components/Payment";
-
+import { fetchCart } from "../../utils/apiCall";
 
 const CardComponent = ({ pname, price, quantity }) => {
     return (
@@ -18,21 +16,14 @@ const CardComponent = ({ pname, price, quantity }) => {
     );
 };
 
-export default function Checkout() {
-    const [cart, setCart] = useState([]);
-    const [total, setTotal] = useState(0);
-    const fetchInfo = async () => {
-        const { data } = await axios.get("/api/store");
-        const total1 = data
+const Checkout = ({ cartData }) => {
+    let total = 0;
+    if (cartData.length !== 0) {
+        total = cartData
             .map((item) => item.quantity * item.storedb.price)
             .reduce((val, acc) => val + acc);
-        setTotal(total1);
-        setCart(data);
-    };
+    }
 
-    useEffect(() => {
-        fetchInfo();
-    }, []);
     return (
         <div className="checkout-component-main">
             <HeaderComponent />
@@ -49,7 +40,7 @@ export default function Checkout() {
                         </tr>
                     </thead>
 
-                    {cart.map(({ orderid, quantity, storedb }) => (
+                    {cartData.map(({ orderid, quantity, storedb }) => (
                         <CardComponent
                             key={orderid}
                             orderid={orderid}
@@ -73,4 +64,16 @@ export default function Checkout() {
             </div>
         </div>
     );
-}
+};
+
+export const getServerSideProps = async () => {
+    const cartData = await fetchCart();
+    // consolse.log(cartData);
+    return {
+        props: {
+            cartData,
+        },
+    };
+};
+
+export default Checkout;

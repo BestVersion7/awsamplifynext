@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { CartContext } from "./Layout";
 
 const HeaderComponent = () => {
-    const { total } = useContext(CartContext);
+    const { cartQuantity } = useContext(CartContext);
     // console.log(total)
 
     return (
@@ -18,7 +18,7 @@ const HeaderComponent = () => {
             <h2 className="cart-button"> */}
             <Link href="/cart">
                 <a className="cart-button">
-                    <b>Cart ({total})</b>
+                    <b>Cart ({cartQuantity})</b>
                 </a>
             </Link>
             {/* </h2> */}

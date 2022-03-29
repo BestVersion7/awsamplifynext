@@ -1,29 +1,35 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import Footer from "./Footer";
-import useSWR from "swr";
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
+import axios from "axios";
 export const CartContext = createContext();
 
 const Layout = ({ children }) => {
-    const { data, error, mutate } = useSWR("/api/store", fetcher);
-    if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>;
-    let total;
-    if (data.length === 0) {
-        total = 0;
-    } else {
-        // console.log(data)
-        total = data
-            .map((item) => item.quantity)
-            .reduce((val, acc) => val + acc);
-    }
-    const mutateCartTotal = mutate;
+    const [cartReload, setCartReload] = useState(false);
+    const [cartQuantity, setCartQuantity] = useState(0);
+    const fetchData = async () => {
+        const { data } = await axios.get("/api/store");
+
+        if (data.length === 0) {
+            return;
+        } else {
+            const total = data
+                .map((item) => item.quantity)
+                .reduce((val, acc) => val + acc);
+            setCartQuantity(total);
+        }
+    };
+    useEffect(() => fetchData(), [cartReload]);
 
     return (
         <div>
-            <CartContext.Provider value={{total, mutateCartTotal}}>
+            <CartContext.Provider
+                value={{
+                    cartQuantity,
+                    setCartQuantity,
+                    cartReload,
+                    setCartReload,
+                }}
+            >
                 <main>{children}</main>
             </CartContext.Provider>
             <Footer />

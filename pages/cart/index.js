@@ -3,13 +3,12 @@ import axios from "axios";
 import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
-import useSWR from "swr";
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import { fetchCart } from "../../utils/apiCall";
 
-const CardComponent = ({ orderid, pname, price, quantity }) => {
-    const { mutateCartTotal } = useContext(CartContext);
+const CardComponent = ({ props }) => {
+    const { cartReload, setCartReload } = useContext(CartContext);
 
-    const [quantityProduct, setQuantityProduct] = useState(quantity);
+    const [quantityProduct, setQuantityProduct] = useState(props.quantity);
     const [disableUpdate, setDisableUpdate] = useState(true);
 
     const handleChange = (e) => {
@@ -23,17 +22,17 @@ const CardComponent = ({ orderid, pname, price, quantity }) => {
             quantity: parseInt(quantityProduct),
         });
         setDisableUpdate(true);
-        mutateCartTotal();
+        setCartReload(!cartReload);
     };
 
     const handleDelete = async (val) => {
         await axios.delete(`/api/store?orderid=${val}`);
-        mutateCartTotal();
+        setCartReload(!cartReload);
     };
     return (
         <tbody>
             <tr>
-                <td>{pname}</td>
+                <td>{props.storedb.pname}</td>
                 <td>
                     <div className="cart-action-container">
                         <input
@@ -45,34 +44,33 @@ const CardComponent = ({ orderid, pname, price, quantity }) => {
                         <span className="cart-action-button-container">
                             <button
                                 className="cart-action-button"
-                                onClick={() => handleUpdate(parseInt(orderid))}
+                                onClick={() =>
+                                    handleUpdate(parseInt(props.orderid))
+                                }
                                 disabled={disableUpdate}
                             >
                                 Update
                             </button>
                             <button
                                 className="cart-action-button"
-                                onClick={() => handleDelete(parseInt(orderid))}
+                                onClick={() =>
+                                    handleDelete(parseInt(props.orderid))
+                                }
                             >
                                 Remove
                             </button>
                         </span>
                     </div>
                 </td>
-                <td>${price}</td>
-                <td>${quantity * price}</td>
+                <td>${props.storedb.price}</td>
+                <td>${props.quantity * props.storedb.price}</td>
             </tr>
         </tbody>
     );
 };
 
-export default function Cart() {
-    const { data, error } = useSWR("/api/store", fetcher);
-
-    if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Loading...</div>;
-
-    let total;
+const Cart = ({ data }) => {
+    let total = 0;
     if (data.length !== 0) {
         total = data
             .map((item) => item.quantity * item.storedb.price)
@@ -112,18 +110,22 @@ export default function Cart() {
                             <th>Total</th>
                         </tr>
                     </thead>
-                    {data.map(({ orderid, quantity, storedb }) => (
-                        <CardComponent
-                            key={orderid}
-                            orderid={orderid}
-                            pname={storedb.pname}
-                            price={storedb.price}
-                            pictureurl={storedb.pictureurl}
-                            quantity={quantity}
-                        />
+                    {data.map((props) => (
+                        <CardComponent key={props.orderid} props={props} />
                     ))}
                 </table>
             </div>
         </div>
     );
-}
+};
+
+export const getServerSideProps = async () => {
+    const data = await fetchCart();
+    return {
+        props: {
+            data,
+        },
+    };
+};
+
+export default Cart;

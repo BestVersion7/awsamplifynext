@@ -1,7 +1,4 @@
-import dotenv from "dotenv";
 import prisma from "../lib/prisma";
-
-dotenv.config();
 
 export const fetchTen = async () => {
     try {

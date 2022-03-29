@@ -5,14 +5,7 @@ import HeaderComponent from "../components/HeaderComponent";
 import { CartContext } from "../components/Layout";
 import Link from "next/link";
 
-const CardComponent = ({
-    id,
-    pname,
-    price,
-    pictureurl,
-    loading,
-    setLoading,
-}) => {
+const CardComponent = ({ props, cartReload, setCartReload }) => {
     const [quantity, setQuantity] = useState(1);
     const [checkoutMessage, setCheckoutMessage] = useState(false);
 
@@ -32,7 +25,7 @@ const CardComponent = ({
                 productid: id,
                 quantity: quantity2,
             });
-            setLoading(!loading);
+            setCartReload(!cartReload);
             setCheckoutMessage(true);
             // console.log(data);
         } catch (err) {
@@ -42,10 +35,10 @@ const CardComponent = ({
 
     return (
         <div className="store-card">
-            <p>{pname}</p>
+            <p>{props.pname}</p>
 
-            <img src={pictureurl} alt={pname} title={pname} />
-            <p>Price: ${price}.00</p>
+            <img src={props.pictureurl} alt={props.pname} title={props.pname} />
+            <p>Price: ${props.price}.00</p>
             <p>Quantity:</p>
             <p>
                 <button className="action-button" onClick={handleDecrement}>
@@ -76,21 +69,18 @@ const CardComponent = ({
 };
 
 export default function Store({ storeproducts }) {
-    const { loading, setLoading } = useContext(CartContext);
+    const { cartReload, setCartReload } = useContext(CartContext);
 
     return (
         <div>
             <HeaderComponent />
             <div className="store-component-main">
-                {storeproducts.map(({ id, pname, price, pictureurl }) => (
+                {storeproducts.map((props) => (
                     <CardComponent
-                        key={id}
-                        id={id}
-                        pname={pname}
-                        price={price}
-                        pictureurl={pictureurl}
-                        loading={loading}
-                        setLoading={setLoading}
+                        key={props.id}
+                        props={props}
+                        cartReload={cartReload}
+                        setCartReload={setCartReload}
                     />
                 ))}
             </div>
