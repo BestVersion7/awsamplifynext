@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
         const { data } = await axios.get("/api/store");
 
         if (data.length === 0) {
-            return;
+            return setCartQuantity(0);
         } else {
             const total = data
                 .map((item) => item.quantity)
