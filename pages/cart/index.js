@@ -4,9 +4,11 @@ import HeaderComponent from "../../components/HeaderComponent";
 import { CartContext } from "../../components/Layout";
 import Link from "next/link";
 import { fetchCart } from "../../utils/apiCall";
+import { useRouter } from "next/router";
 
 const CardComponent = ({ props }) => {
     const { cartReload, setCartReload } = useContext(CartContext);
+    const router = useRouter();
 
     const [quantityProduct, setQuantityProduct] = useState(props.quantity);
     const [disableUpdate, setDisableUpdate] = useState(true);
@@ -23,11 +25,13 @@ const CardComponent = ({ props }) => {
         });
         setDisableUpdate(true);
         setCartReload(!cartReload);
+        router.push(router.asPath);
     };
 
     const handleDelete = async (val) => {
         await axios.delete(`/api/store?orderid=${val}`);
         setCartReload(!cartReload);
+        router.push(router.asPath);
     };
     return (
         <tbody>
