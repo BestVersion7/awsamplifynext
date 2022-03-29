@@ -5,6 +5,7 @@ import HeaderComponent from "../components/HeaderComponent";
 import { CartContext } from "../components/Layout";
 import Link from "next/link";
 import Meta from "../components/Meta";
+import Image from "next/image";
 
 const CardComponent = ({ props, cartReload, setCartReload }) => {
     const [quantity, setQuantity] = useState(1);
@@ -40,7 +41,14 @@ const CardComponent = ({ props, cartReload, setCartReload }) => {
 
             <p>{props.pname}</p>
 
-            <img src={props.pictureurl} alt={props.pname} title={props.pname} />
+            <Image
+                height="5em"
+                width="5em"
+                layout="responsive"
+                src={props.pictureurl}
+                alt={props.pname}
+                title={props.pname}
+            />
             <p>Price: ${props.price}.00</p>
             <p>Quantity:</p>
             <p>

@@ -22,19 +22,16 @@ body {
         .store-card {
             text-align: center;
             border: 1px solid black;
-        }
-        img {
-            height: 5em;
-            width: 5em;
-            // border: 1em solid black
+            padding: 1em;
             @include mQ(30em) {
-                height: 7em;
-                width: 7em;
+                padding: 1.5em;
             }
             @include mQ(50em) {
-                height: 9em;
-                width: 9em;
+                padding: 2.5em;
             }
+            // position: relative;
+            // height: 100%;
+            // width: 100%;
         }
     }
     .checkout-component-main,
