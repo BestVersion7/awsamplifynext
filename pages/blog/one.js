@@ -1,5 +1,6 @@
 import { fetchOne } from "../../utils/apiCall";
 import ArticleCardDetail from "../../components/ArticleCardDetail";
+import AdSense from "../../components/AdSense";
 
 const ArticlePage = ({ articleData }) => {
     const {
@@ -12,18 +13,19 @@ const ArticlePage = ({ articleData }) => {
     } = articleData;
 
     return (
-        <div>
-            <div className="article-page-divider">
-                <div>
-                    <ArticleCardDetail
-                        article_id={article_id}
-                        article_title={article_title}
-                        article_post={article_post}
-                        article_date={article_date}
-                        article_image={article_image}
-                        article_image_small={article_image_small}
-                    />
-                </div>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr" }}>
+            <div>
+                <ArticleCardDetail
+                    article_id={article_id}
+                    article_title={article_title}
+                    article_post={article_post}
+                    article_date={article_date}
+                    article_image={article_image}
+                    article_image_small={article_image_small}
+                />
+            </div>
+            <div>
+                <AdSense />
             </div>
         </div>
     );

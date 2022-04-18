@@ -6,6 +6,7 @@ import { CartContext } from "../../components/Layout";
 import Link from "next/link";
 import Meta from "../../components/Meta";
 import Image from "next/image";
+import AdSense from "../../components/AdSense";
 
 const CardComponent = ({ props, cartReload, setCartReload }) => {
     const [quantity, setQuantity] = useState(1);
@@ -36,45 +37,48 @@ const CardComponent = ({ props, cartReload, setCartReload }) => {
     };
 
     return (
-        <div className="store-card">
-            <Meta title={"store"} description={"This is my store"} />
-            <p>{props.pname}</p>
+        <>
+            <div className="store-card">
+                <Meta title={"store"} description={"This is my store"} />
 
-            <Image
-                width="1em"
-                height="1em"
-                layout="responsive"
-                src={props.pictureurl}
-                alt={props.pname}
-                title={props.pname}
-            />
-            <p>Price: ${props.price}.00</p>
-            <p>Quantity:</p>
-            <p>
-                <button className="action-button" onClick={handleDecrement}>
-                    -
-                </button>
-                <input
-                    size="1px"
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
+                <p>{props.pname}</p>
+
+                <Image
+                    width="1em"
+                    height="1em"
+                    layout="responsive"
+                    src={props.pictureurl}
+                    alt={props.pname}
+                    title={props.pname}
                 />
-                <button className="action-button" onClick={handleIncrement}>
-                    +
-                </button>
-            </p>
-            <button onClick={handleAddCart}>Add to Cart</button>
-            {checkoutMessage && (
+                <p>Price: ${props.price}.00</p>
+                <p>Quantity:</p>
                 <p>
-                    Product added to cart! Click here to{" "}
-                    <Link href="/cart">
-                        <a>checkout</a>
-                    </Link>{" "}
-                    or upper right hand corner
+                    <button className="action-button" onClick={handleDecrement}>
+                        -
+                    </button>
+                    <input
+                        size="1px"
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                    />
+                    <button className="action-button" onClick={handleIncrement}>
+                        +
+                    </button>
                 </p>
-            )}
-        </div>
+                <button onClick={handleAddCart}>Add to Cart</button>
+                {checkoutMessage && (
+                    <p>
+                        Product added to cart! Click here to
+                        <Link href="/cart">
+                            <a>checkout</a>
+                        </Link>{" "}
+                        or upper right hand corner
+                    </p>
+                )}
+            </div>
+        </>
     );
 };
 
@@ -84,6 +88,8 @@ export default function Store({ storeproducts }) {
     return (
         <div>
             <HeaderComponent />
+            <AdSense />
+
             <div className="store-component-main">
                 {storeproducts.map((props) => (
                     <CardComponent
