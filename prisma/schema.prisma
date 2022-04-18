@@ -8,10 +8,11 @@ datasource db {
 }
 
 model usertb {
-  account_id Int     @id @default(autoincrement())
-  first_name String? @db.VarChar(50)
-  last_name  String? @db.VarChar(10)
-  gender     String? @db.VarChar(1)
+  account_id Int      @id @default(autoincrement())
+  last_name  String?  @db.VarChar(10)
+  gender     String?  @db.VarChar(1)
+  lastmod    DateTime @default(now()) @db.Timestamptz(6)
+  first_name String?
 }
 
 model storedb {
@@ -27,4 +28,89 @@ model ordertb {
   productid Int     @unique
   quantity  Int?    @db.SmallInt
   storedb   storedb @relation(fields: [productid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Account {
+  id                String  @id
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  User              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  Account       Account[]
+  Session       Session[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model blog {
+  article_id          Int       @id @default(autoincrement())
+  article_title       String?   @db.VarChar(50)
+  article_post        String?
+  article_image       String?   @db.VarChar(300)
+  article_image_small String?   @db.VarChar(300)
+  article_date        DateTime? @db.Date
+  article_public      Boolean?
+  comment             comment[]
+}
+
+model comment {
+  comment_id        Int       @id @default(autoincrement())
+  comment_date      DateTime? @default(now()) @db.Timestamp(6)
+  comment_user_name String?   @db.VarChar(100)
+  comment_body      String?   @db.VarChar(250)
+  article_id        Int?
+  user_image        String?   @default("https://res.cloudinary.com/crimson-flamingo/image/upload/v1556920165/030519%20drinks/drink-1556920166118.png") @db.VarChar(500)
+  blog              blog?     @relation(fields: [article_id], references: [article_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_1")
+}
+
+model commenttb {
+  comment_id        Int       @id @default(autoincrement())
+  comment_date      DateTime? @default(now()) @db.Timestamp(6)
+  comment_user_name String?   @db.VarChar(100)
+  comment_body      String?   @db.VarChar(250)
+  drink_id          Int?
+  drinkdb           drinkdb?  @relation(fields: [drink_id], references: [drink_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_1")
+}
+
+model drinkdb {
+  drink_id          Int         @id @default(autoincrement())
+  drink_name        String?     @db.VarChar(50)
+  drink_group       String?     @default("margaritas") @db.VarChar(30)
+  drink_url         String?     @db.VarChar(500)
+  drink_ingredients String?
+  drink_directions  String?
+  drink_price       Int?        @default(20)
+  commenttb         commenttb[]
 }
