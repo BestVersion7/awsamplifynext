@@ -94,11 +94,12 @@ export const fetchTotal = async () => {
 };
 
 export const fetchArticleById = async (articleId) => {
-    const data2 = await prisma.blog.findOne({
+    const data2 = await prisma.blog.findMany({
         where: {
             article_id: articleId,
         },
     });
     const data = JSON.parse(JSON.stringify(data2));
+    // console.log(data)
     return data;
 };
