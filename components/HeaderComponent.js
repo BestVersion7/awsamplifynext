@@ -14,6 +14,21 @@ const HeaderComponent = () => {
                     <b>Shop Food</b>
                 </a>
             </Link>
+            <Link href="/blog/one">
+                <a className="header-icon">
+                    <b>One</b>
+                </a>
+            </Link>
+            <Link href="/blog/two">
+                <a className="header-icon">
+                    <b>Two</b>
+                </a>
+            </Link>
+            <Link href="/blog/three">
+                <a className="header-icon">
+                    <b>Three</b>
+                </a>
+            </Link>
             {/* </h2>
             <h2 className="cart-button"> */}
             <Link href="/cart">

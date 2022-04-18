@@ -92,3 +92,13 @@ export const fetchTotal = async () => {
         };
     }
 };
+
+export const fetchArticleById = async (articleId) => {
+    const data2 = await prisma.blog.findUnique({
+        where: {
+            article_id: articleId,
+        },
+    });
+    const data = JSON.parse(JSON.stringify(data2));
+    return data;
+};
