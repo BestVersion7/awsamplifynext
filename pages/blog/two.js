@@ -1,32 +1,20 @@
 import { fetchArticleById } from "../../utils/apiCall";
-import Head from "next/head";
 import ArticleCardDetail from "../../components/ArticleCardDetail";
-import Script from "next/script";
-import { useEffect } from "react";
 import HeaderComponent from "../../components/HeaderComponent";
 
-const ArticlePage = ({ articleData }) => {
-    const {
-        article_date,
-        article_title,
-        article_image,
-        article_post,
-        article_id,
-        article_image_small,
-    } = articleData;
-
+const ArtTwo = ({ articleData }) => {
     return (
         <div>
             <div className="article-page-divider">
                 <HeaderComponent />
                 <div>
                     <ArticleCardDetail
-                        article_id={article_id}
-                        article_title={article_title}
-                        article_post={article_post}
-                        article_date={article_date}
-                        article_image={article_image}
-                        article_image_small={article_image_small}
+                        article_id={articleData.article_id}
+                        article_title={articleData.article_title}
+                        article_post={articleData.article_post}
+                        article_date={articleData.article_date}
+                        article_image={articleData.article_image}
+                        article_image_small={articleData.article_image_small}
                     />
                 </div>
             </div>
@@ -38,15 +26,10 @@ const ArticlePage = ({ articleData }) => {
     );
 };
 
-export default ArticlePage;
+export default ArtTwo;
 
 export const getStaticProps = async () => {
-    const articleData = await fetchArticleById(parseInt("16"));
-    if (articleData === null) {
-        return {
-            notFound: true,
-        };
-    }
+    const articleData = await fetchArticleById(16);
 
     return {
         props: { articleData },
