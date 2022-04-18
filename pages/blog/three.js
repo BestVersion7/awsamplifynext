@@ -41,7 +41,7 @@ const ArticlePage = ({ articleData }) => {
 export default ArticlePage;
 
 export const getStaticProps = async () => {
-    const articleData = await fetchArticleById(17);
+    const articleData = await fetchArticleById(parseInt("17"));
     if (articleData === null) {
         return {
             notFound: true,
